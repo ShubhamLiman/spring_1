@@ -16,6 +16,7 @@ public class UsernonDb {
     private String password;
     private List<JournalEntries> journalEntries = new ArrayList<>();
     private List<String> roles;
+    private boolean sentimentAnalysis;
 
     public String getName() {
         return name;
@@ -66,4 +67,12 @@ public class UsernonDb {
     }
 
     private LocalDateTime date;
+
+    public boolean isSentimentAnalysis() {
+        return sentimentAnalysis;
+    }
+
+    public void setSentimentAnalysis(boolean sentimentAnalysis) {
+        this.sentimentAnalysis = sentimentAnalysis;
+    }
 }

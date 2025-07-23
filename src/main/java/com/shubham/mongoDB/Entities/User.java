@@ -29,6 +29,7 @@ public class User {
     @DBRef
     private List<JournalEntries> journalEntries = new ArrayList<>();
     private List<String> roles;
+    private boolean sentimentAnalysis = true;
     private LocalDateTime date;
 
 }

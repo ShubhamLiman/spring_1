@@ -2,15 +2,11 @@ package com.shubham.mongoDB.service;
 
 import com.shubham.mongoDB.Entities.JournalEntries;
 import com.shubham.mongoDB.Entities.User;
-import com.shubham.mongoDB.repository.journalEntryRepo;
+import com.shubham.mongoDB.repository.JournalEntryRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -19,7 +15,7 @@ import java.util.Optional;
 public class JournalEntryService {
 
     @Autowired
-    private journalEntryRepo repo;
+    private JournalEntryRepo repo;
 
     @Autowired
     private UserEntryService userservice;

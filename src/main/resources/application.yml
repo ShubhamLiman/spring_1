@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: springWithMongoDb
+
+  data:
+    mongodb:
+      uri: mongodb+srv://Shubham_L:MH14jt9445$@springtest.fosgxpw.mongodb.net/?retryWrites=true&w=majority&appName=springTest
+      database: testSpring
+      auto-index-creation: true
+
+  main:
+    allow-circular-references: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: shubhamsendermail@gmail.com
+    password: nutf xksp fonc xlvl
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+wether:
+  api:
+    key: ba722c45bcde4812b6a62205251907
