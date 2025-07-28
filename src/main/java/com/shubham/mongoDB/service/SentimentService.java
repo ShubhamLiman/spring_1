@@ -1,4 +1,12 @@
 package com.shubham.mongoDB.service;
 
-public class SentimentService {
+import org.springframework.stereotype.Component;
+
+@Component
+public class SentimentService{
+
+    public String getSentiment(String text){
+        return "";
+    }
+
 }

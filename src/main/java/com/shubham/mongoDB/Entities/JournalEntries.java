@@ -1,5 +1,6 @@
 package com.shubham.mongoDB.Entities;
 
+import com.shubham.mongoDB.enums.Sentiment;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -21,4 +22,5 @@ public class JournalEntries {
     @NonNull
     private String content;
     private LocalDateTime date;
+    private Sentiment sentiment;
 }
