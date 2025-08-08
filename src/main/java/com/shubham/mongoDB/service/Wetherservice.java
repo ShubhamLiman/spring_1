@@ -11,6 +11,10 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class Wetherservice {
+
+    @Autowired
+    private RedisService redisService;
+
     @Value("${weather.api.key}")
     private String key;
 //    private static final String api = "http://api.weatherapi.com/v1/current.json?key=API_KEY&q=CITY&aqi=no";
@@ -22,14 +26,23 @@ public class Wetherservice {
     private AppCache appCache;
 
     public Apiresponce getApi(String city) {
-        String urlTemplate = appCache.getAppcache().get("weather_api");
-        if (urlTemplate == null) {
-            throw new IllegalStateException("Missing 'weather_api' in AppCache. Check MongoDB data.");
+        Apiresponce redisresponce = redisService.get(city,Apiresponce.class);
+        if(redisresponce != null){
+            return redisresponce;
+        }else{
+            String urlTemplate = appCache.getAppcache().get("weather_api");
+            if (urlTemplate == null) {
+                throw new IllegalStateException("Missing 'weather_api' in AppCache. Check MongoDB data.");
+            }
+            String finalApi = urlTemplate.replace("<city>",city).replace("<apikey>",key);
+            ResponseEntity<Apiresponce> responce = restTemplate.exchange(finalApi, HttpMethod.GET,null, Apiresponce.class);
+            Apiresponce body = responce.getBody();
+            if(body != null){
+                redisService.set(city,body,60);
+            }
+            return body;
         }
-        String finalApi = urlTemplate.replace("<city>",city).replace("<apikey>",key);
-        ResponseEntity<Apiresponce> responce = restTemplate.exchange(finalApi, HttpMethod.GET,null, Apiresponce.class);
-        Apiresponce body = responce.getBody();
-        return body;
+
     }
 
     public void checkDb(){

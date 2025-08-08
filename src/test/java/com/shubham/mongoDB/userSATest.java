@@ -1,6 +1,7 @@
 package com.shubham.mongoDB;
 
 import com.shubham.mongoDB.Entities.User;
+import com.shubham.mongoDB.Scheduler.UserScheduler;
 import com.shubham.mongoDB.repository.UserRepoImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,10 +16,18 @@ public class userSATest {
     @Autowired
     private UserRepoImpl userRepo;
 
+    @Autowired
+    private UserScheduler userScheduler;
+
     @Test
     public void testSentmentAnalysis(){
         List<User> use = userRepo.getUserforSA();
         System.out.println(use);
+    }
+
+    @Test
+    public void testSendUserSentimentMail(){
+        userScheduler.fetchUsersAndMail();
     }
 
 }

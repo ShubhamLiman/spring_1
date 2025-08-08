@@ -3,11 +3,13 @@ package com.shubham.mongoDB.Scheduler;
 import com.shubham.mongoDB.Entities.JournalEntries;
 import com.shubham.mongoDB.Entities.User;
 import com.shubham.mongoDB.enums.Sentiment;
+import com.shubham.mongoDB.model.SentimentData;
 import com.shubham.mongoDB.repository.UserRepoImpl;
 import com.shubham.mongoDB.service.AppCache;
 import com.shubham.mongoDB.service.EmailService;
 import com.shubham.mongoDB.service.SentimentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +35,9 @@ public class UserScheduler {
     @Autowired
     private AppCache appCache;
 
+    @Autowired
+    KafkaTemplate<String, SentimentData> kafkaTemplate;
+
     @Scheduled(cron = "0 * * * * *")
     public void fetchUsersAndMail() {
         List<User> users = userRepo.getUserforSA();
@@ -56,7 +61,12 @@ public class UserScheduler {
                 }
             }
             if(mostFreq != null){
-                emailService.sendEmail(user.getEmail(), "Sentiment for last 7 days", mostFreq.toString());
+                SentimentData sentimentData = SentimentData.builder().email(user.getEmail()).sentiment("Sentiment for last 7 days " + mostFreq).build();
+//                try{
+                    kafkaTemplate.send("weekly_sentiments", sentimentData.getEmail(), sentimentData);
+//                }catch (Exception e){
+//                    emailService.sendEmail(sentimentData.getEmail(), "Sentiment for previous week", sentimentData.getSentiment());
+//                }
             }
 
 
